@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amdocs.inventory.model.Product;
+import com.amdocs.inventory.model.ProductCharacteristic;
 import com.amdocs.inventory.service.ProductService;
 import com.amdocs.inventory.utils.InventoryConstants;
 import com.amdocs.inventory.utils.ResponseHandler;
@@ -60,8 +61,23 @@ public class ProductController {
 		}
 		boolean isProductDeleted = productService.deleteProduct(productId);
 		if (isProductDeleted) {
-			return ResponseHandler.doSuccessResponse(InventoryConstants.PRODUCT_IS_SUCCESSFULLY_CREATED, HttpStatus.OK);
+			return ResponseHandler.doSuccessResponse(InventoryConstants.PRODUCT_IS_SUCCESSFULLY_DELETD, HttpStatus.OK);
 		}
 		return ResponseHandler.doErrorResponse(InventoryConstants.FAILED_TO_DELETE_PRODUCT, HttpStatus.OK);
+	}
+
+	@PostMapping("/product/{productId}/productCharacteristics")
+	public ResponseEntity<Object> productCharacteristics(@PathVariable Long productId,
+			@RequestBody List<ProductCharacteristic> productCharacteristics) {
+		if (productId == null || productId < 1)
+			return ResponseHandler.doErrorResponse(InventoryConstants.INVALID_PRODUCT_ID, HttpStatus.OK);
+		boolean isCharacteristicsAdded = productService.addProductCharacteristics(productId, productCharacteristics);
+		if (isCharacteristicsAdded) {
+			return ResponseHandler.doErrorResponse(InventoryConstants.PRODUCT_CHARACTERISTICS_ADDED_SUCCESSFULLY,
+					HttpStatus.OK);
+		} else {
+			return ResponseHandler.doSuccessResponse(InventoryConstants.FAILED_TO_ADD_PRODUCT_CHARACTERISTICS,
+					HttpStatus.OK);
+		}
 	}
 }

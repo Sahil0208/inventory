@@ -3,6 +3,7 @@ package com.amdocs.inventory.service;
 import java.util.List;
 
 import com.amdocs.inventory.model.Product;
+import com.amdocs.inventory.model.ProductCharacteristic;
 
 /**
  * The Interface ProductService.
@@ -39,5 +40,14 @@ public interface ProductService {
 	 * @return true, if successful
 	 */
 	public boolean deleteProduct( long productId);
+	
+	/**
+	 * Adds the product characteristics.
+	 *
+	 * @param productId the product id
+	 * @param productCharacteristics the product characteristics
+	 * @return true, if successful
+	 */
+	public boolean addProductCharacteristics( Long productId, List<ProductCharacteristic> productCharacteristics);
 	
 }
